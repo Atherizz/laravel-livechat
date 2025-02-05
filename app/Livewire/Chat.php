@@ -36,7 +36,10 @@ class Chat extends Component
         ]);
 
         $this->reset('message');
+    }
 
-        
+    public function deleteMessage($id) {
+        $message = Message::findOrFail($id); // Akan error jika ID tidak ditemukan
+        $message->delete();
     }
 }

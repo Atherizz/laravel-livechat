@@ -16,5 +16,6 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 Route::get('/chat/{user}', Chat::class)->name('chat');
+// Route::delete('/chat/{user}', [Chat::class, 'deleteMessage']);
 
 require __DIR__.'/auth.php';
