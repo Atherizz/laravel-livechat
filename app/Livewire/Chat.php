@@ -15,13 +15,13 @@ class Chat extends Component
 
     #[Validate('required|string|max:1000|not_regex:/<[^>]*>/')] 
     public $message = '';
-    public function render()
+    public function render(User $user)
     {
         return view('livewire.chat', [
             'messages' =>  Message::where('from_user_id', Auth::id())
+            ->where('to_user_id', $user->id)
             ->orWhere('from_user_id', $this->user->id)
-            ->orWhere('to_user_id', Auth::id())
-            ->orWhere('to_user_id', $this->user->id)->get()
+            ->where('to_user_id', Auth::id())->get()
         ]);
     }
 
