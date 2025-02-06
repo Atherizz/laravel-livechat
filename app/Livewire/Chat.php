@@ -24,7 +24,6 @@ class Chat extends Component
             ->where('to_user_id', Auth::id())->get()
         ]);
     }
-
     public function sendMessage() {
 
         $this->validate();
@@ -39,7 +38,7 @@ class Chat extends Component
     }
 
     public function deleteMessage($id) {
-        $message = Message::findOrFail($id); // Akan error jika ID tidak ditemukan
+        $message = Message::findOrFail($id); 
         $message->delete();
     }
 }
