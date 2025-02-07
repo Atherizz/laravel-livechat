@@ -45,7 +45,9 @@ class Friend extends Component
             ]
         );
 
-        return redirect(route('addfriend'))->with('success', 'Friend Request Send!');
+        session()->flash('status', 'Friend Request send!.');
+ 
+        $this->redirect(route('addfriend'));
 
     }
 }

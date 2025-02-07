@@ -8,6 +8,7 @@ use App\Models\Friendlist;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Builder;
 
 Route::view('/', 'welcome');
 
@@ -24,9 +25,19 @@ Route::view('profile', 'profile')
 
 
 Route::get('/friendlist', function () {
+
+        $friendlist = Friendlist::where('to_user_id', Auth::id())
+        ->where('status', 'active');
+        $request = request('search');
+
+        if ($request) {
+            $friendlist = $friendlist->whereHas('fromUser', function (Builder $query) use ($request) {
+                $query->where('name', 'like', "%$request%");
+            });
+        }
+
         return view('friendlist', [
-            'friendlist' => Friendlist::where('to_user_id', Auth::id())
-            ->where('status', 'active')->get()
+            'friendlist' => $friendlist->get()
     ]);
     })->middleware(['auth', 'verified'])->name('friendlist');
 

@@ -35,14 +35,19 @@ class Notif extends Component
                 'to_user_id' => $friend->from_user_id,
                 'status' => 'active'
             ]);
-    
+            
             $friend->status = 'active';
             $friend->save();
+
+            session()->flash('success', 'Friend request accepted!');
         } else {
             $friend->delete();
+            session()->flash('decline', 'Friend request declined!');
         }
 
         $notif = Notification::where('from_user_id', $id)->first();
         Notification::destroy($notif->id);
+
+        $this->redirect(route('addfriend'));
     }
 }
