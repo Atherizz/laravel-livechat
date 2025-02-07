@@ -13,16 +13,6 @@
                         <button class="bg-blue-500 text-white rounded-lg px-4 py-2">Add Friend</button>
                     </div>
                     </a>
-
-                    <!-- Friend List -->
-                    <h3 class="text-lg font-semibold mb-4">Your Friends</h3>
-                    <ul class="list-disc pl-5">
-                        <li class="py-2">John Doe</li>
-                        <li class="py-2">Jane Smith</li>
-                        <li class="py-2">Alice Johnson</li>
-                        <li class="py-2">Bob Brown</li>
-                        <li class="py-2">Charlie Davis</li>
-                    </ul>
                 </div>
             </div>
         </div>

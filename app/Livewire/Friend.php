@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Friendlist;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class Friend extends Component
 {
@@ -18,19 +19,41 @@ class Friend extends Component
         $users = [];
 
         if ($search) {
-            $users = User::where('name', 'like', "%$search%")
-            ->where('id', '!=', Auth::id())->get();
-        }
+                $users = User::where('name', 'like', "%$search%")
+                ->where('id', '!=', Auth::id())->get();
 
+        }
         return view('livewire.addfriend', [
             'users' => $users
         ]);
 
     }
 
+    public function unfriend($id) 
+    {
+        $user = User::findOrFail($id);
+        
+        Friendlist::where(function($query) use ($user) {
+            $query->where('from_user_id', $user->id)
+                  ->where('to_user_id', Auth::id());
+        })->orWhere(function($query) use ($user) {
+            $query->where('from_user_id', Auth::id())
+                  ->where('to_user_id', $user->id);
+        })->delete();
+
+        $this->redirect(route('friendlist'));
+
+    }
+
     public function friendRequest($id)
     {
+
         $user = User::findOrFail($id); 
+
+        if ($user->status == 'active') {
+            return redirect()->back()->with('error', 'User already in your friend list!');
+        } else {
+
         Friendlist::create([
             'from_user_id' => Auth::id(),
             'to_user_id' => $user->id,
@@ -48,6 +71,8 @@ class Friend extends Component
         session()->flash('status', 'Friend Request send!.');
  
         $this->redirect(route('addfriend'));
+
+    }
 
     }
 }

@@ -21,13 +21,13 @@ class Chat extends Component
             'messages' =>  Message::where('from_user_id', Auth::id())
             ->where('to_user_id', $this->user->id)
             ->orWhere('from_user_id', $this->user->id)
-            ->where('to_user_id', Auth::id())->get()
+            ->where('to_user_id', Auth::id())->oldest()->get()
         ]);
     }
+
     public function sendMessage() {
 
         $this->validate();
-
         Message::create([
             'from_user_id' => Auth::id(),
             'to_user_id' => $this->user->id,

@@ -11,4 +11,8 @@ class Friendlist extends Model
     public function fromUser(): BelongsTo {
         return $this->belongsTo(User::class, 'from_user_id');
     }
+
+    public function toUser(): BelongsTo {
+        return $this->belongsTo(User::class, 'to_user_id');
+    }
 }
