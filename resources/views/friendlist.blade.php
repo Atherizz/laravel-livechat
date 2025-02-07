@@ -23,11 +23,10 @@
                     <!-- Friend List -->
                     <h3 class="text-lg font-semibold mb-4">Your Friends</h3>
                     <ul class="list-disc pl-5">
-                        <li class="py-2">John Doe</li>
-                        <li class="py-2">Jane Smith</li>
-                        <li class="py-2">Alice Johnson</li>
-                        <li class="py-2">Bob Brown</li>
-                        <li class="py-2">Charlie Davis</li>
+                        @foreach ($friendlist as $friend)
+                        <li class="py-2">{{ $friend->fromUser->name }}</li>
+                        @endforeach
+
                     </ul>
                 </div>
             </div>

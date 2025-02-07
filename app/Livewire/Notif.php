@@ -45,7 +45,4 @@ class Notif extends Component
         $notif = Notification::where('from_user_id', $id)->first();
         Notification::destroy($notif->id);
     }
-
-    
-
 }

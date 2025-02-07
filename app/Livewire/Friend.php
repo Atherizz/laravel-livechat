@@ -45,7 +45,7 @@ class Friend extends Component
             ]
         );
 
-        // return redirect(route('addfriend'))->with('success', 'Friend Request Send!');
+        return redirect(route('addfriend'))->with('success', 'Friend Request Send!');
 
     }
 }

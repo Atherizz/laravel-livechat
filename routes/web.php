@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Livewire\Chat;
 use App\Livewire\Notif;
 use App\Livewire\Friend;
+use App\Models\Friendlist;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -11,7 +12,10 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 
 Route::get('/dashboard', function () {
-    return view('dashboard', ['users' => User::where('id', '!=', Auth::id())->get()]);
+    return view('dashboard', [
+        'users' => Friendlist::where('to_user_id', Auth::id())
+        ->where('status', 'active')->get()
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::view('profile', 'profile')
@@ -19,13 +23,19 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 
-Route::view('friendlist', 'friendlist')
-    ->middleware(['auth'])
-    ->name('friendlist');
+Route::get('/friendlist', function () {
+        return view('friendlist', [
+            'friendlist' => Friendlist::where('to_user_id', Auth::id())
+            ->where('status', 'active')->get()
+    ]);
+    })->middleware(['auth', 'verified'])->name('friendlist');
 
-// Route::get('/notification', function () {
-//         return view('notification', ['notif' => Notification::where('to_user_id', Auth::id())->get()]);
-//     })->middleware(['auth', 'verified'])->name('notification');
+
+// Route::view('friendlist', 'friendlist')
+//     ->middleware(['auth'])
+//     ->name('friendlist');
+
+
 
 Route::get('/chat/{user}', Chat::class)->name('chat');
 Route::get('/addfriend', Friend::class)->name('addfriend');

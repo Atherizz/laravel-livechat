@@ -15,11 +15,11 @@ class Chat extends Component
 
     #[Validate('required|string|max:1000|not_regex:/<[^>]*>/')] 
     public $message = '';
-    public function render(User $user)
+    public function render()
     {
         return view('livewire.chat', [
             'messages' =>  Message::where('from_user_id', Auth::id())
-            ->where('to_user_id', $user->id)
+            ->where('to_user_id', $this->user->id)
             ->orWhere('from_user_id', $this->user->id)
             ->where('to_user_id', Auth::id())->get()
         ]);
@@ -36,7 +36,6 @@ class Chat extends Component
 
         $this->reset('message');
     }
-
     public function deleteMessage($id) {
         $message = Message::findOrFail($id); 
         $message->delete();
