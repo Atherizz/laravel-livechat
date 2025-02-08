@@ -33,15 +33,12 @@ class Friend extends Component
     {
         $user = User::findOrFail($id);
         
-        Friendlist::where(function($query) use ($user) {
-            $query->where('from_user_id', $user->id)
-                  ->where('to_user_id', Auth::id());
-        })->orWhere(function($query) use ($user) {
-            $query->where('from_user_id', Auth::id())
-                  ->where('to_user_id', $user->id);
-        })->delete();
+        Friendlist::where('from_user_id', Auth::id())
+        ->where('to_user_id', $user->id)
+        ->orWhere('from_user_id', $user->id)
+        ->where('to_user_id', Auth::id())->delete();
 
-        $this->redirect(route('friendlist'));
+        return redirect()->route('friendlist');
 
     }
 
