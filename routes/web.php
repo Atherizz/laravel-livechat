@@ -23,6 +23,8 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+Route::delete('/friendlist/{user}', [Friend::class, 'unfriend']);
+
 
 Route::get('/friendlist', function () {
 

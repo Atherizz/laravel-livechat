@@ -30,12 +30,22 @@
                     <ul class="list-disc pl-5">
                         @if (request('search'))
                         @if ($friendlist->isEmpty())
-                            <li class="text-red-500">User not found</li>
+                            <li class="text-red-500">User  not found</li>
                         @endif
-                    @endif
+                        @endif
 
                         @foreach ($friendlist as $friend)
-                        <li class="py-2">{{ $friend->fromUser->name }}</li>
+                        <li class="flex justify-between items-center py-2">
+                            <span>{{ $friend->fromUser->name }}</span>
+                            <form action="/friendlist/{{ $friend->fromUser->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline block">Unfriend</button>
+                            </form>
+                            {{-- <button type="submit" wire:click="unfriend({{ $friend->fromUser->id}}, 'accept')" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
+                              Unfriend
+                            </button> --}}
+                        </li>
                         @endforeach
 
                     </ul>
