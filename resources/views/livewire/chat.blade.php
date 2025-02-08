@@ -15,7 +15,7 @@
             </div>
             <div class="ml-4">
               <h2 class="text-lg font-bold text-black">{{ $user->name }}</h2>
-              <p class="text-sm text-gray-600">Status:</p>
+              <p class="text-sm text-gray-600">Last seen : {{ $user['last_seen']  }}</p>
             </div>
           </div>
         </div>

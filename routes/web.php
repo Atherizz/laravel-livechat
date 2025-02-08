@@ -17,10 +17,10 @@ Route::get('/dashboard', function () {
         'users' => Friendlist::where('to_user_id', Auth::id())
         ->where('status', 'active')->get()
     ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'user.last_seen_at'])->name('dashboard');
 
 Route::view('profile', 'profile')
-    ->middleware(['auth'])
+    ->middleware(['auth', 'user.last_seen_at'])
     ->name('profile');
 
 Route::delete('/friendlist/{user}', [Friend::class, 'unfriend']);
@@ -41,7 +41,7 @@ Route::get('/friendlist', function () {
         return view('friendlist', [
             'friendlist' => $friendlist->get()
     ]);
-    })->middleware(['auth', 'verified'])->name('friendlist');
+    })->middleware(['auth', 'verified', 'user.last_seen_at'])->name('friendlist');
 
 
 // Route::view('friendlist', 'friendlist')
@@ -49,10 +49,11 @@ Route::get('/friendlist', function () {
 //     ->name('friendlist');
 
 
-
+Route::middleware(['auth', 'verified', 'user.last_seen_at'])->group(function () {
 Route::get('/chat/{user}', Chat::class)->name('chat');
 Route::get('/addfriend', Friend::class)->name('addfriend');
 Route::get('/notification', Notif::class)->name('notification');
 // Route::delete('/chat/{user}', [Chat::class, 'deleteMessage']);
+});
 
 require __DIR__.'/auth.php';
