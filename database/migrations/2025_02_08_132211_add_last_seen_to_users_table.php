@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('notifications', function (Blueprint $table) {
-            $table->renameColumn('user_id', 'to_user_id');
-            $table->foreignId('from_user_id')->constrained('users', 'id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->timestamp('last_seen')->useCurrent();
         });
     }
 
@@ -22,7 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('notifications', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
+                        $table->timestamp('last_seen')->useCurrent();
         });
     }
 };
